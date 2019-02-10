@@ -10,7 +10,7 @@ sys.setdefaultencoding('utf-8')
 utf8 = 'utf8'
 
 
-def get_sentences_from_excel(path, txtName, columnIndex):
+def get_sentences_from_excel_col(path, txtName, columnIndex):
     review_list_file = open('../txtfiles/' + txtName + '.txt', 'w')
     split_word_result = open('../split.txt', 'w')
     xlrd.Book.encoding = utf8
@@ -19,6 +19,7 @@ def get_sentences_from_excel(path, txtName, columnIndex):
     nrows = table.nrows
     print 'count rows in path :' + str(nrows)
     for i in range(1, nrows):
+        print "{}/{}".format(i,nrows)
         comment = table.row_values(i)[columnIndex:columnIndex + 1]
         str_c = str(comment[0])
         str_c = str_c.encode(utf8)
@@ -242,14 +243,14 @@ def form_a_xls_with_every_reviews_and_sentiment_label():
     xls.close()
     return
 
+if __name__ == "__main__":
+    # get_sentences_from_excel_col('../DataSource/comment_origin.xlsx', 'reviews', 1)
+    # get_sentences_from_excel_col('../DataSource/彩电业务.xlsx', 'yewu', 3)
+    # get_sentences_from_excel_col('../DataSource/彩电产品.xlsx', 'chanpin', 3)
+    # get_sentences_from_excel_col('../DataSource/彩电其他.xlsx', 'qita', 1)
+    # get_sentences_from_excel_col('../DataSource/彩电平台.xlsx', 'pingtai', 3)
+    # get_sentences_from_excel_col('../DataSource/彩电服务.xlsx', 'fuwu', 3)
 
-# get_sentences_from_excel('../comment_origin.xlsx', 'reviews', 1)
-# get_sentences_from_excel('../彩电业务.xlsx', 'yewu', 3)
-# get_sentences_from_excel('../彩电产品.xlsx', 'chanpin', 3)
-# get_sentences_from_excel('../彩电其他.xlsx', 'qita', 1)
-# get_sentences_from_excel('../彩电平台.xlsx', 'pingtai', 3)
-# get_sentences_from_excel('../彩电服务.xlsx', 'fuwu', 3)
+    # form_a_xls_with_every_reviews()
 
-# form_a_xls_with_every_reviews()
-
-form_a_xls_with_every_reviews_and_sentiment_label()
+    form_a_xls_with_every_reviews_and_sentiment_label()
