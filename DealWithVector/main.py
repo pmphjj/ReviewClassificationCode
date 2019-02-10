@@ -1,4 +1,6 @@
-import gensim_test
+# _*_ coding: utf-8 _*_
+# coding=utf-8
+import gensim
 import numpy as np
 
 def numberarray(length, number):
@@ -13,23 +15,26 @@ def numberarray(length, number):
 # for tmp in array :
 #     print tmp
 
-LabeledSentence = gensim_test.models.doc2vec.LabeledSentence
+LabeledSentence = gensim.models.doc2vec.LabeledSentence
 
 from sklearn.cross_validation import train_test_split
 
-with open('../yewu.txt', 'r') as infile:  # 0
+print "open txt"
+
+with open('../txtfiles/yewu.txt', 'r') as infile:  # 0
     yewu_reviews = infile.readlines()
-with open('../chanpin.txt', 'r') as infile:  # 1
+with open('../txtfiles/chanpin.txt', 'r') as infile:  # 1
     chanpin_reviews = infile.readlines()
-with open('../qita.txt', 'r') as infile:  # 2
+with open('../txtfiles/qita.txt', 'r') as infile:  # 2
     qita_reviews = infile.readlines()
-with open('../pingtai.txt', 'r') as infile:  # 3
+with open('../txtfiles/pingtai.txt', 'r') as infile:  # 3
     pingtai_reviews = infile.readlines()
-with open('../fuwu.txt', 'r') as infile:  # 4
+with open('../txtfiles/fuwu.txt', 'r') as infile:  # 4
     fuwu_reviews = infile.readlines()
-with open('../reviews.txt', 'r') as infile:
+with open('../txtfiles/reviews.txt', 'r') as infile:
     unsup_reviews = infile.readlines()
 
+print "step 1"
 # use 1 for positive sentiment, 0 for negative
 y = np.concatenate((np.zeros(len(yewu_reviews)),
                     np.ones(len(chanpin_reviews)),
@@ -83,11 +88,12 @@ unsup_reviews = labelizeReviews(unsup_reviews, 'UNSUP')
 
 import random
 
+print "step 2"
 size = 400
 
 # instantiate our DM and DBOW models
-model_dm = gensim_test.models.Doc2Vec(min_count=1, window=10, size=size, sample=1e-3, negative=5, workers=3)
-model_dbow = gensim_test.models.Doc2Vec(min_count=1, window=10, size=size, sample=1e-3, negative=5, dm=0, workers=3)
+model_dm = gensim.models.Doc2Vec(min_count=1, window=10, size=size, sample=1e-3, negative=5, workers=3)
+model_dbow = gensim.models.Doc2Vec(min_count=1, window=10, size=size, sample=1e-3, negative=5, dm=0, workers=3)
 
 # build vocab over all reviews
 model_dm.build_vocab(np.concatenate((x_train, x_test, unsup_reviews)))
@@ -128,7 +134,7 @@ test_vecs = np.hstack((test_vecs_dm, test_vecs_dbow))
 
 # Step 3
 from sklearn.linear_model import SGDClassifier
-
+print "step 3"
 lr = SGDClassifier(loss='log', penalty='l1')
 lr.fit(train_vecs, y_train)
 
