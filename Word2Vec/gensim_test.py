@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from gensim_test.models import Word2Vec
+from gensim.models import word2vec
 # 主程序
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-sentences = Word2Vec.Text8Corpus(u"../split.txt")  # load input files
-model = Word2Vec.Word2Vec(sentences, size=200)  # 训练skip-gram模型; 默认window=5
+print "train model"
+sentences = word2vec.Text8Corpus(u"../split.txt")  # load input files
+model = word2vec.Word2Vec(sentences, size=200)  # 训练skip-gram模型; 默认window=5
+print "model complete!"
 
 # 计算两个词的相似度/相关程度
 y1 = model.similarity(u"不错", u"好")
@@ -38,7 +40,7 @@ model.save(u"review.model")
 # model_2 = word2vec.Word2Vec.load("text8.model")
 
 # 以一种C语言可以解析的形式存储词向量
-model.save_word2vec_format(u"review.model.bin", binary=True)
+model.wv.save_word2vec_format(u"review.model.bin", binary=True)
 # 对应的加载方式
 # model_3 = word2vec.Word2Vec.load_word2vec_format("text8.model.bin", binary=True)
 
